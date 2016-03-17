@@ -2,18 +2,18 @@
 from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
 from django.utils.translation import ugettext as _
-from zawody.models import FieldEvent
+from pzwla_events.models import FieldEvent
 from models import ZawodyPlugin
 from models import WynikiZawodowPlugin
 from datetime import datetime
-from zawody.models import utc
+from pzwla_events.models import utc
 
 
 class CMSZawodyPlugin(CMSPluginBase):
     model = ZawodyPlugin  # model where plugin data are saved
     module = _("Zawody")
     name = _("Wtyczka - najblizsze zawody")  # name of the plugin in the interface
-    render_template = "zawody/zawody_plugin.html"
+    render_template = "pzwla_events/zawody_plugin.html"
 
     def render(self, context, name, placeholder):
         settings = ZawodyPlugin.objects.all()[0]
@@ -52,7 +52,7 @@ class CMSWynikiZawodowPlugin(CMSPluginBase):
     model = WynikiZawodowPlugin
     module = _("Zawody")
     name = _("Wtyczka - najnowsze wyniki zawodow")  # name of the plugin in the interface
-    render_template = "zawody/wyniki_plugin.html"
+    render_template = "pzwla_events/wyniki_plugin.html"
 
     def render(self, context, name, placeholder):
         settings = ZawodyPlugin.objects.all()[0]
@@ -84,7 +84,7 @@ class CMSWynikiZawodowPlugin(CMSPluginBase):
 class CMSKalkulatorWynikowPlugin(CMSPluginBase):
     module = _("Zawody")
     name = _("Wtyczka - kalkulator zawodow")  # name of the plugin in the interface
-    render_template = "zawody/kalkulator_plugin.html"
+    render_template = "pzwla_events/kalkulator_plugin.html"
 
 plugin_pool.register_plugin(CMSZawodyPlugin)
 plugin_pool.register_plugin(CMSWynikiZawodowPlugin)
