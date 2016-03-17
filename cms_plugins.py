@@ -32,6 +32,7 @@ class CMSZawodyPlugin(CMSPluginBase):
                 continue
             if events_number > settings.events_number:
                 break
+
             events.append(event)
             events_number += 1
 
@@ -70,7 +71,9 @@ class CMSWynikiZawodowPlugin(CMSPluginBase):
                 continue
             if events_number > settings.events_number:
                 break
-            events.append(event)
+
+            if event.results or event.results_file:
+                events.append(event)
             events_number += 1
 
         events.sort(key=lambda x: x.date_time)
