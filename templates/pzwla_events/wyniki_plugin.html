@@ -19,13 +19,22 @@
                             </h5>
                         </div>
                         <div class="timeline-body">
-                            {% if meeting.results %}
-                                <a href="{{ meeting.results }}" class="btn btn-success" role="button">Wyniki www</a>
-                            {% endif %}
 
-                            {% if meeting.results_file %}
-                                <a href="{{ meeting.results_file }}" class="btn btn-info" role="button">Wyniki pdf</a>
-                            {% endif %}
+                            <p align="right">
+                                 {% if meeting.results_file %}
+                                     <small class="text-muted"><i class="glyphicon glyphicon-file"></i>
+                                         <a href="{{ meeting.results_file.url }}">PLIK PDF</a></small>
+                                 {% endif %}
+                                 {% if meeting.results %}
+                                     <span></span>
+                                     <small class="text-muted"><i class="glyphicon glyphicon-th-list"></i>
+                                         <a href="{{ meeting.results }}">WWW</a></small>
+                                 {% endif %}
+                                 {% else %}
+                                     </i>BRAK WYNIKÓW</small>
+                                 {% endif %}
+                             </p>
+
                         </div>
                     </div>
                 </li>
