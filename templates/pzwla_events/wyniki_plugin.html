@@ -19,7 +19,13 @@
                             </h5>
                         </div>
                         <div class="timeline-body">
-                            <a href="{{ meeting.results }}" class="btn btn-success" role="button">Wyniki</a>
+                            {% if meeting.results %}
+                                <a href="{{ meeting.results }}" class="btn btn-success" role="button">Wyniki www</a>
+                            {% endif %}
+
+                            {% if meeting.results_file %}
+                                <a href="{{ meeting.results_file }}" class="btn btn-info" role="button">Wyniki pdf</a>
+                            {% endif %}
                         </div>
                     </div>
                 </li>
