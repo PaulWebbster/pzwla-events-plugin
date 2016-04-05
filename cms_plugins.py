@@ -5,8 +5,46 @@ from django.utils.translation import ugettext as _
 from pzwla_events.models import FieldEvent
 from models import ZawodyPlugin
 from models import WynikiZawodowPlugin
+from models import OstatnioDodanePlikiPlugin
+from models import ExplorerFile
 from datetime import datetime
+from filer.models.foldermodels import Folder
 from pzwla_events.models import utc
+
+
+class CMSOstatnioDodanelikiPlugin(CMSPluginBase):
+    model = OstatnioDodanePlikiPlugin  # model where plugin data are saved
+    module = _("Zawody")
+    name = _("Wtyczka - ostatnio dodane pliki")  # name of the plugin in the interface
+    render_template = "pzwla_events/pliki_plugin.html"
+
+    def render(self, context, instance, placeholder):
+        context.update({'instance': instance})
+        context['files'] = self.get_subfolder_files(instance.files_folder)[-instance.files_number:]
+        return context
+
+    def get_subfolder_files(self, parent):
+        files_list = []
+        sub_folders = []
+
+        for obj in Folder.objects.all().filter(parent=parent):
+            if obj.file_type == "Folder":
+                sub_folders.append(obj)
+
+        for folder in sub_folders:
+            files_list.extend(self.get_subfolder_files(folder))
+
+        files_list.extend(self.get_files(parent))
+
+        return files_list
+
+    @staticmethod
+    def get_files(folder):
+        files = []
+        for fp in folder.files:
+            files.append(ExplorerFile.objects.get(id=fp.id))
+
+        return files
 
 
 class CMSZawodyPlugin(CMSPluginBase):
@@ -66,7 +104,7 @@ class CMSWynikiZawodowPlugin(CMSPluginBase):
                 events.append(event)
             events_number = len(events)
 
-        for event in FieldEvent.objects.all().filter(date_time__lt=datetime.now(tz=utc)).order_by('date_time'):
+        for event in FieldEvent.objects.all().filter(date_time__lt=datetime.now(tz=utc)).order_by('-date_time'):
             if event in events:
                 continue
             if events_number > settings.events_number:
@@ -89,6 +127,7 @@ class CMSKalkulatorWynikowPlugin(CMSPluginBase):
     name = _("Wtyczka - kalkulator zawodow")  # name of the plugin in the interface
     render_template = "pzwla_events/kalkulator_plugin.html"
 
+plugin_pool.register_plugin(CMSOstatnioDodanelikiPlugin)
 plugin_pool.register_plugin(CMSZawodyPlugin)
 plugin_pool.register_plugin(CMSWynikiZawodowPlugin)
 plugin_pool.register_plugin(CMSKalkulatorWynikowPlugin)

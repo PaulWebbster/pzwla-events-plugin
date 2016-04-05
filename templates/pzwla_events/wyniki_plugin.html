@@ -7,29 +7,33 @@
         <div class="panel-heading"><b>OSTATNIO DODANE WYNIKI</b></div>
         <div class="panel-body">
             <ul class="timeline">
-                {% for meeting in last_meetings %}
+                {% for meeting in last_meetings reversed %}
                 <li>
                     <div class="timeline-badge primary">{{ meeting.date_time|date:"d M" }}</div>
                     <div class="timeline-panel">
                         <div class="timeline-heading">
                             <h4 class="timeline-title">{{ meeting.name }}</h4>
                             <h5>{{ meeting.date_time|date:"d F Y"}}</h5>
-                            <h5>
-                                {{ meeting.place.city }}, {{ meeting.place.country }}
-                            </h5>
-                        </div>
-                        <div class="timeline-body">
-                            <p align="right">
-                                 {% if meeting.results_file %}
-                                     <small class="text-muted"><i class="glyphicon glyphicon-file"></i>
-                                         <a href="{{ meeting.results_file.url }}">PLIK PDF</a></small>
-                                 {% endif %}
-                                 {% if meeting.results %}
-                                     <span></span>
-                                     <small class="text-muted"><i class="glyphicon glyphicon-th-list"></i>
-                                         <a href="{{ meeting.results }}">WWW</a></small>
-                                 {% endif %}
-                             </p>
+                            <table style="width:100%">
+                                <tr>
+                                    <td>
+                                        <h5>
+                                            {{ meeting.place.city }}, {{ meeting.place.country }}
+                                        </h5>
+                                    </td>
+                                    <td align="right">
+                                         {% if meeting.results_file %}
+                                             <small class="text-muted"><i class="glyphicon glyphicon-file"></i>
+                                                 <a href="{{ meeting.results_file.url }}">PLIK PDF</a></small>
+                                         {% endif %}
+                                         {% if meeting.results %}
+                                             <span></span>
+                                             <small class="text-muted"><i class="glyphicon glyphicon-th-list"></i>
+                                                 <a href="{{ meeting.results }}">WWW</a></small>
+                                         {% endif %}
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                 </li>
