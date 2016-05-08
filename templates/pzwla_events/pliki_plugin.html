@@ -1,0 +1,28 @@
+{% load sekizai_tags %}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <b>{{ instance.name }}</b>
+    </div>
+    <div class="panel-body">
+         <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Nazwa pliku</th>
+                    <th class="text-center">Dodano</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for file in files %}
+                <tr>
+                    <th class="col-md-1"><img src="{{ file.get_document_icon }}"/></th>
+                    <th class="col-md-6"><a href="{{ file.url }}">{{ file.label }}</a></th>
+                    <th class="col-md-3 text-center">{{ file.modified_at|date:"d.m"}}</th>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
