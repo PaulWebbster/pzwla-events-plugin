@@ -10,6 +10,7 @@ from models import ExplorerFile
 from datetime import datetime
 from filer.models.foldermodels import Folder
 from pzwla_events.models import utc
+from django.db.models import Q
 
 
 class CMSOstatnioDodanelikiPlugin(CMSPluginBase):
@@ -104,7 +105,8 @@ class CMSWynikiZawodowPlugin(CMSPluginBase):
                 events.append(event)
             events_number = len(events)
 
-        for event in FieldEvent.objects.all().filter(date_time__lt=datetime.now(tz=utc)).order_by('-date_time'):
+        for event in FieldEvent.objects.all().filter(date_time__lt=datetime.now(tz=utc))\
+                .exclude(Q(results_file='') & Q(results='')).order_by('-date_time'):
             if event in events:
                 continue
             if events_number > settings.events_number:
