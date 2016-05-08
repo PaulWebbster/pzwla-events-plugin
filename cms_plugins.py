@@ -107,6 +107,7 @@ class CMSWynikiZawodowPlugin(CMSPluginBase):
 
         for event in FieldEvent.objects.all().filter(date_time__lt=datetime.now(tz=utc))\
                 .exclude(Q(results_file='') & Q(results='')).order_by('-date_time'):
+            #dupa
             if event in events:
                 continue
             if events_number > settings.events_number:
