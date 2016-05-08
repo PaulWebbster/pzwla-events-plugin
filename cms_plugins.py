@@ -7,10 +7,45 @@ from models import ZawodyPlugin
 from models import WynikiZawodowPlugin
 from models import OstatnioDodanePlikiPlugin
 from models import ExplorerFile
+from models import InformacjeONachodzacychZawodach
 from datetime import datetime
 from filer.models.foldermodels import Folder
 from pzwla_events.models import utc
 from django.db.models import Q
+
+
+class CMSInformacjeONajblizszychZawodach(CMSPluginBase):
+    model = InformacjeONachodzacychZawodach
+    module = _("Zawody")
+    name = _("Wtyczka - informacje o zblizających się zawodach")
+    render_template = "pzwla_events/informacje_plugin.html"
+
+    def render(self, context, instance, placeholder):
+        max_events_number = self.model.events_number
+        events = list()
+        events_number = 0
+
+        for event in FieldEvent.objects.all().filter(date_time__gt=datetime.now(tz=utc)).order_by('date_time')\
+                .exclude(Q(entry_booklet='') & Q(entry_booklet_file='')).order_by('-date_time'):
+            if event in events:
+                continue
+            if events_number > max_events_number:
+                break
+
+            events.append(event)
+            events_number += 1
+
+        events.sort(key=lambda x: x.date_time)
+
+        dates = list()
+
+        for event in events:
+            dates.append(event.date_time.strftime("%Y/%m/%d"))
+        context.update({'name': instance,
+                        'events': events,
+                        'dates': dates
+                        })
+        return context
 
 
 class CMSOstatnioDodanelikiPlugin(CMSPluginBase):

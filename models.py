@@ -64,6 +64,14 @@ class OstatnioDodanePlikiPlugin(CMSPlugin):
     def __unicode__(self):
         return self.name
 
+
+class InformacjeONachodzacychZawodach(CMSPlugin):
+    events_number = models.IntegerField("Liczba informacji wyświetlanych o najbliższych zawodach", default=8)
+
+    def __unicode__(self):
+        return u"Informacje o nadchodzacych zawodach"
+
+
 class KalukulatorWynikowPlugin(CMSPlugin):
     name = models.CharField("Nazwa", max_length=50)
 

@@ -1,0 +1,28 @@
+{% load sekizai_tags %}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <b>Informacje o zbliżających się zawodach</b>
+    </div>
+    <div class="panel-body">
+         <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Zawody</th>
+                    <th class="text-center"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for event in events %}
+                <tr>
+                    <th class="col-md-1"><img src="{{ event.date_time|date'd.m' }}"/></th>
+                    <th class="col-md-6"><a href="{{ event.name }}"</a></th>
+                    <th class="col-md-3 text-center"><a href="http://{{ request.get_host }}/zawody/{{ event.slug }}" class="btn btn-info" role="button">Więcej</a></th>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
