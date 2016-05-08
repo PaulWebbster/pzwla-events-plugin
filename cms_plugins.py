@@ -17,11 +17,11 @@ from django.db.models import Q
 class CMSInformacjeONajblizszychZawodach(CMSPluginBase):
     model = InformacjeONachodzacychZawodach
     module = _("Zawody")
-    name = _("Wtyczka - informacje o zblizających się zawodach")
+    name = _("Wtyczka - informacje o zblizajacych sie zawodach")
     render_template = "pzwla_events/informacje_plugin.html"
 
     def render(self, context, instance, placeholder):
-        max_events_number = self.model.events_number
+        max_events_number = self.model.objects.all()[0].events_number
         events = list()
         events_number = 0
 
@@ -169,3 +169,4 @@ plugin_pool.register_plugin(CMSOstatnioDodanelikiPlugin)
 plugin_pool.register_plugin(CMSZawodyPlugin)
 plugin_pool.register_plugin(CMSWynikiZawodowPlugin)
 plugin_pool.register_plugin(CMSKalkulatorWynikowPlugin)
+plugin_pool.register_plugin(CMSInformacjeONajblizszychZawodach)

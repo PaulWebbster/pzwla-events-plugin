@@ -16,7 +16,7 @@
             <tbody>
                 {% for event in events %}
                 <tr>
-                    <th class="col-md-1"><img src="{{ event.date_time|date'd.m' }}"/></th>
+                    <th class="col-md-1"><img src="{{ event.date_time|date:"d/m" }}"/></th>
                     <th class="col-md-6"><a href="{{ event.name }}"</a></th>
                     <th class="col-md-3 text-center"><a href="http://{{ request.get_host }}/zawody/{{ event.slug }}" class="btn btn-info" role="button">Więcej</a></th>
                 </tr>
