@@ -2,7 +2,7 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <b>Informacje o zbliżających się zawodach</b>
+        <b>INFORMACJE O NADCHODZĄCYCH ZAWODACH</b>
     </div>
     <div class="panel-body">
          <table class="table table-striped">
@@ -16,9 +16,13 @@
             <tbody>
                 {% for event in events %}
                 <tr>
-                    <th class="col-md-1"><img src="{{ event.date_time|date:"d/m" }}"/></th>
-                    <th class="col-md-6"><a href="{{ event.name }}"</a></th>
-                    <th class="col-md-3 text-center"><a href="http://{{ request.get_host }}/zawody/{{ event.slug }}" class="btn btn-info" role="button">Więcej</a></th>
+                    <th class="col-md-1">{{ event.date_time|date:"d/m" }}</th>
+                    {% if event.entry_booklet_file %}
+                    <th class="col-md-9"><a href="{{ MEDIA_URL }}{{ event.entry_booklet_file }}"</a>{{ event.name }}</th>
+                    {% else %}
+                    <th class="col-md-9"><a href="{{ event.entry_booklet }}"</a>{{ event.name }}</th>
+                    {% endif %}
+                    <th class="col-md-2 text-center"><a href="http://{{ request.get_host }}/zawody/{{ event.slug }}" class="btn btn-info" role="button">Więcej</a></th>
                 </tr>
                 {% endfor %}
             </tbody>
